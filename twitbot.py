@@ -7,8 +7,10 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
-# function to follow back all of the account's followers
 def follow_followers():
+    """
+    Follows back all of the account's current followers
+    """
     for follower in tweepy.Cursor(api.get_followers).items():
         api.create_friendship(user_id=follower.id_str)
         print(follower.id_str)
@@ -41,17 +43,18 @@ def getE7():
     else:
         return False
 
+
 # tkinter root creation
 root = Tk()
 
-# variable initialization
+# variable initialization for tkinter OptionMenus
 options = ["Yes", "No"]
 var4 = StringVar()
 var5 = StringVar()
 var6 = StringVar()
 var7 = StringVar()
 
-# tkinter label, text entry and option menu creation
+# tkinter label, text entry and OptionMenu creation
 label1 = Label(root, text="Search")
 E1 = Entry(root, bd=5)
 label2 = Label(root, text="Number of Tweets")
@@ -81,24 +84,58 @@ def mainFunction():
     favorite = getE6()
     follow = getE7()
 
-    print(search)
-    print(number_of_tweets)
-    print(response)
-    print(reply)
-    print(retweet)
-    print(favorite)
-    print(follow)
+    # reply to the tweet with the givene response
+    if reply is True:
+        for tweet in tweepy.Cursor(api.search_tweets, search).items(number_of_tweets):
+            try:
+                tweet_id = tweet.user.id
+                username = tweet.user.screen_name
+                api.update_status("@" + username + " " + response, in_reply_to_status_id=tweet_id)
+                print("Replied with '" + response + "'")
 
-    for tweet in tweepy.Cursor(api.search_tweets, search).items(number_of_tweets):
-        try:
-            tweet.favorite()
-            print('Favorited the tweet')
+            except tweepy.errors.TweepyException as e:
+                print(e)
 
-        except tweepy.errors.TweepyException as e:
-            print(e)
+    # retweet the found tweet
+    if retweet is True:
+        for tweet in tweepy.Cursor(api.search_tweets, search).items(number_of_tweets):
+            try:
+                tweet.retweet()
+                print('Retweeted the tweet')
 
-        except StopIteration:
-            break
+            except tweepy.errors.TweepyException as e:
+                print(e)
+
+            except StopIteration:
+                break
+
+    # favorite the found tweet
+    if favorite is True:
+        for tweet in tweepy.Cursor(api.search_tweets, search).items(number_of_tweets):
+            try:
+                tweet.favorite()
+                print('Favorited the tweet')
+
+            except tweepy.errors.TweepyException as e:
+                print(e)
+
+            except StopIteration:
+                break
+
+    # follow the tweet's author
+    if follow is True:
+        for tweet in tweepy.Cursor(api.search_tweets, search).items(number_of_tweets):
+            try:
+                tweet_id = tweet.user.id
+                api.create_friendship(user_id=tweet_id)
+                print("Followed ID", tweet_id)
+
+            except tweepy.errors.TweepyException as e:
+                print(e)
+
+            except StopIteration:
+                break
+
 
 # create submit button calling mainFunction
 submit = Button(root, text="Submit", command=mainFunction)

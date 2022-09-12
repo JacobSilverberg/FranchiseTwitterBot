@@ -21,12 +21,6 @@ tweet = api.user_timeline(count=1)
 most_recent_tweet_time = tweet[0].created_at
 most_recent_tweet_time = most_recent_tweet_time.replace(tzinfo=utc)
 
-def get_transactions(year=2022):
-    """
-    Intermediary function to pull Yahoo transaction data from inside tkinter
-    """
-    return pull_yahoo_transactions(year)
-
 def convert_timestamp(timestamp):
     """
     Handles conversion of timestamp from yahoo data into datetime object for comparison with tweet datetime
@@ -34,7 +28,6 @@ def convert_timestamp(timestamp):
     transaction_time = datetime.fromtimestamp(int(timestamp))
     transaction_time = transaction_time.replace(tzinfo=utc)
     return transaction_time
-
 
 def process_add_transactions(add):
     """

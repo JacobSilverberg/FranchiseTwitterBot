@@ -1,3 +1,6 @@
+# created utilizing the tutorial found at:
+# https://www.freecodecamp.org/news/creating-a-twitter-bot-in-python-with-tweepy-ac524157a607
+
 import tweepy
 from tkinter import *
 from credentials import consumer_key, consumer_secret, access_token, access_token_secret

@@ -151,8 +151,8 @@ def process_trade_transactions(trade):
         # pull desired information into variables for tweet, create list for traded players
         trader_team_name = trade[i]['trader_team_name']
         tradee_team_name = trade[i]['tradee_team_name']
-        trader_receives = []
         tradee_receives = []
+        trader_receives = []
         timestamp_trade = trade[i]['timestamp']
 
         # iterate through each trade and add players to correct list
@@ -187,16 +187,16 @@ def getE1():
         return True
     else:
         return False
-def getE2():
-    if var2.get() == "Yes":
-        return True
-    else:
-        return False
-def getE3():
-    if var3.get() == "Yes":
-        return True
-    else:
-        return False
+# def getE2():
+#     if var2.get() == "Yes":
+#         return True
+#     else:
+#         return False
+# def getE3():
+#     if var3.get() == "Yes":
+#         return True
+#     else:
+#         return False
 
 
 # tkinter root creation
@@ -205,31 +205,33 @@ root = Tk()
 # variable initialization for tkinter OptionMenus
 options = ["Yes", "No"]
 var1 = StringVar()
-var2 = StringVar()
-var3 = StringVar()
+# var2 = StringVar()
+# var3 = StringVar()
 
 # tkinter label, text entry and OptionMenu creation
-label1 = Label(root, text="Process Adds?")
+label1 = Label(root, text="Process Transactions?")
 E1 = OptionMenu(root, var1, *options)
-label2 = Label(root, text="Process Drops?")
-E2 = OptionMenu(root, var2, *options)
-label3 = Label(root, text="Process Trades?")
-E3 = OptionMenu(root, var3, *options)
+# label2 = Label(root, text="Process Drops?")
+# E2 = OptionMenu(root, var2, *options)
+# label3 = Label(root, text="Process Trades?")
+# E3 = OptionMenu(root, var3, *options)
 
 
 def mainFunction():
-    process_adds = getE1()
-    process_drops = getE2()
-    process_trades = getE3()
+    process_transactions = getE1()
+    # process_drops = getE2()
+    # process_trades = getE3()
 
-    if process_adds is True:
+    if process_transactions is True:
         process_add_transactions(yahoo_adds)
-
-    if process_drops is True:
         process_drop_transactions(yahoo_drops)
-
-    if process_trades is True:
         process_trade_transactions(yahoo_trades)
+
+    # if process_drops is True:
+    #     process_drop_transactions(yahoo_drops)
+    #
+    # if process_trades is True:
+    #     process_trade_transactions(yahoo_trades)
 
 
 # create submit button calling mainFunction
@@ -238,11 +240,11 @@ submit = Button(root, text="Submit", command=mainFunction)
 # pack all labels, inputs and dropdowns
 label1.pack()
 E1.pack()
-label2.pack()
-E2.pack()
-label3.pack()
-E3.pack()
-submit.pack()
+# label2.pack()
+# E2.pack()
+# label3.pack()
+# E3.pack()
+# submit.pack()
 
 # main root loop
 root.mainloop()
